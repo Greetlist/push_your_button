@@ -1,5 +1,3 @@
-from ui import ScreenShotCoordinateView
-from ui import FunctionalView
 from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QTextBrowser
 from PySide6.QtCore import QSize
 from thread.LogFetcherThread import LogFetcherThread
@@ -79,7 +77,7 @@ class MainView(QWidget):
             self.start_button.setEnabled(True)
 
     def init_log_fetch_thread(self):
-        self.log_fetch_thread = LogFetcherThread.LogFetcherThread(self)
+        self.log_fetch_thread = LogFetcherThread(self)
         self.log_fetch_thread.start()
 
     def append_text(self, text):
@@ -88,3 +86,8 @@ class MainView(QWidget):
 
     def closeEvent(self, e):
         self.log_fetch_thread.terminate()
+
+    def resize_and_show(self):
+        self.setWindowTitle("Auto Hunting")
+        self.show()
+        self.setFixedSize(QSize(600, 400))
