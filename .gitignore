@@ -2,3 +2,5 @@ build/
 dist/
 main.spec
 *.swp
+*.log
+__pycache__/

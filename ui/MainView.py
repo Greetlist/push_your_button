@@ -2,6 +2,8 @@ from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QTextBrowser
 from PySide6.QtCore import QSize
 from thread.LogFetcherThread import LogFetcherThread
 from PySide6 import QtWidgets
+from ui.AddKeySequenceView import AddKeySequenceView
+from ui.AddBuffView import AddBuffView
 
 class MainView(QWidget):
     def __init__(self, parent=None):
@@ -55,11 +57,14 @@ class MainView(QWidget):
         self.log_browser = QTextBrowser()
         self.g_layout.addWidget(self.log_browser, 2, 0, 1, 4)
 
+        self.attack_sequence_view = AddKeySequenceView(self)
+        self.buff_view = AddBuffView(self)
+
     def open_add_attack_window(self):
-        pass
+        self.attack_sequence_view.show()
 
     def open_add_buff_window(self):
-        pass
+        self.buff_view.show()
 
     def start_auto_hunter(self):
         self.start_button.setText("Hunting")

@@ -4,7 +4,7 @@ import datetime as dt
 
 class Logger:
     log_dir = os.path.dirname(__file__)
-    os.makedirs(log_dir)
+    os.makedirs(log_dir, exist_ok=True)
     log_filename = 'hunter_{}.log'.format(dt.datetime.now().strftime('%Y-%m-%d-%H%M%S'))
     logger = logging.getLogger(log_filename)
 
