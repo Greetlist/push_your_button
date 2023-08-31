@@ -78,7 +78,7 @@ class MainView(QWidget):
             self.stop_button.setEnabled(False)
             self.hunter_thread.wait()
             self.stop_button.setText("Stop")
-            self.start_button.setText("Start Fishing")
+            self.start_button.setText("Start Hunting")
             self.start_button.setEnabled(True)
 
     def init_log_fetch_thread(self):

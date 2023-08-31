@@ -2,6 +2,7 @@ import PySide6.QtCore as QtCore
 from PySide6.QtCore import QEvent
 from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QTextBrowser
 import time
+from constant.key_board_mapping import QtKeyBoardStringDict
 
 class AddKeySequenceView(QWidget):
     def __init__(self, parent=None):
@@ -11,6 +12,7 @@ class AddKeySequenceView(QWidget):
         self.init_layout()
 
         self.key_sequence = []
+        self.key_string_sequence = []
 
     def init_component(self):
         self.save_button = QPushButton("保存")
@@ -19,7 +21,7 @@ class AddKeySequenceView(QWidget):
 
         self.reset_button = QPushButton("重置")
         self.reset_button.setEnabled(False)
-        self.reset_button.clicked.connect(self.stop_record)
+        self.reset_button.clicked.connect(self.clear_record)
 
         self.record_brower = QTextBrowser()
         self.record_brower.installEventFilter(self)
@@ -34,28 +36,28 @@ class AddKeySequenceView(QWidget):
         self.save_button.setEnabled(False)
         self.reset_button.setEnabled(True)
 
-    def stop_record(self):
+    def clear_record(self):
         self.save_button.setEnabled(True)
         self.reset_button.setEnabled(False)
+        self.key_sequence = []
+        self.key_string_sequence = []
 
     def eventFilter(self, widget, event):
         if event.type() == QEvent.KeyPress:
             key = event.key()
-            key_string = ""
-            if key == QtCore.Qt.Key_Up:
-                key_string = "Up"
-            elif key == QtCore.Qt.Key_Down:
-                key_string = "Down"
-            elif key == QtCore.Qt.Key_Left:
-                key_string = "Left"
-            elif key == QtCore.Qt.Key_Right:
-                key_string = "Right"
+            key_info = QtKeyBoardStringDict.get(key, None)
+            if key_info is not None:
+                key_string = key_info["String"]
             else:
-                key_string = str(key)
-            key_string += " -> "
-            self.record_brower.append(key_string)
+                key_string = "Unknown"
+            self.key_sequence.append(key)
+            self.key_string_sequence.append(key_string)
+            self.record_brower.setText(self.gen_sequence_str())
             return True
         return False
+
+    def gen_sequence_str(self):
+        return " -> ".join(self.key_string_sequence)
 
     def init_layout(self):
         pass        
