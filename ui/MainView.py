@@ -1,13 +1,18 @@
 from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QTextBrowser
 from PySide6.QtCore import QSize
 from thread.LogFetcherThread import LogFetcherThread
+from thread.HunterThread import HunterThread
 from PySide6 import QtWidgets
 from ui.AddKeySequenceView import AddKeySequenceView
 from ui.AddBuffView import AddBuffView
 
+import sys
+
 class MainView(QWidget):
     def __init__(self, parent=None):
         super().__init__()
+        self.maple_window_name = "测试写入.txt - 记事本"
+
         self.init_child_widget()
         self.init_log_fetch_thread()
 
@@ -60,6 +65,10 @@ class MainView(QWidget):
         self.attack_sequence_view = AddKeySequenceView(self)
         self.buff_view = AddBuffView(self)
 
+        self.hunter_thread = HunterThread(self, self.attack_sequence_view.total_key_sequence, self.maple_window_name)
+        if self.hunter_thread.init() == False:
+            sys.exit(1)
+
     def open_add_attack_window(self):
         self.attack_sequence_view.show()
 
@@ -70,6 +79,7 @@ class MainView(QWidget):
         self.start_button.setText("Hunting")
         self.start_button.setEnabled(False)
         self.stop_button.setEnabled(True)
+        self.hunter_thread.start()
 
     def stop_auto_hunter(self):
         if self.hunter_thread.isRunning():

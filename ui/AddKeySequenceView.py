@@ -1,6 +1,7 @@
 from PySide6.QtCore import QEvent
 from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QTextBrowser
 from constant.key_board_mapping import QtKeyBoardStringDict
+from ui.RecordView import RecordView
 
 class AddKeySequenceView(QWidget):
     def __init__(self, parent=None):
@@ -26,7 +27,7 @@ class AddKeySequenceView(QWidget):
 
         self.view_record_button = QPushButton("查看序列")
         self.view_record_button.setEnabled(True)
-        self.view_record_button.clicked.connect(self.view_record)
+        self.view_record_button.clicked.connect(self.show_record)
 
         self.record_brower = QTextBrowser()
         self.record_brower.installEventFilter(self)
@@ -48,8 +49,9 @@ class AddKeySequenceView(QWidget):
         self.key_string_sequence_cache = []
         self.record_brower.setText(self.gen_sequence_str())
 
-    def view_record(self):
-        pass
+    def show_record(self):
+        self.tmp_record_view = RecordView(self)
+        self.tmp_record_view.show()
 
     def eventFilter(self, widget, event):
         if event.type() == QEvent.KeyPress:
