@@ -14,28 +14,28 @@ class MainView(QWidget):
     def init_child_widget(self):
         button_list = [
             {
-                "name": "Add Attack",
+                "name": "添加按键序列",
                 "slot": self.open_add_attack_window,
                 "member_name": "add_attack_button",
                 "grid_x": 0,
                 "grid_y": 0
             },
             {
-                "name": "Add Buff",
+                "name": "添加周期Buff",
                 "slot": self.open_add_buff_window,
                 "member_name": "add_buff_button",
                 "grid_x": 0,
                 "grid_y": 1
             },
             {
-                "name": "Start",
+                "name": "开始",
                 "slot": self.start_auto_hunter,
                 "member_name": "start_button",
                 "grid_x": 1,
                 "grid_y": 0
             },
             {
-                "name": "Stop",
+                "name": "停止",
                 "slot": self.stop_auto_hunter,
                 "member_name": "stop_button",
                 "grid_x": 1,
