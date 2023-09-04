@@ -62,15 +62,15 @@ class MainView(QWidget):
         self.log_browser = QTextBrowser()
         self.g_layout.addWidget(self.log_browser, 2, 0, 1, 4)
 
-        self.attack_sequence_view = AddKeySequenceView(self)
+        self.add_key_sequence_view = AddKeySequenceView(self)
         self.buff_view = AddBuffView(self)
 
-        self.hunter_thread = HunterThread(self, self.attack_sequence_view.total_key_sequence, self.maple_window_name)
+        self.hunter_thread = HunterThread(self, self.maple_window_name)
         if self.hunter_thread.init() == False:
             sys.exit(1)
 
     def open_add_attack_window(self):
-        self.attack_sequence_view.show()
+        self.add_key_sequence_view.show()
 
     def open_add_buff_window(self):
         self.buff_view.show()
@@ -79,6 +79,9 @@ class MainView(QWidget):
         self.start_button.setText("Hunting")
         self.start_button.setEnabled(False)
         self.stop_button.setEnabled(True)
+
+        self.hunter_thread.set_key_sequence(self.add_key_sequence_view.total_key_sequence)
+        self.hunter_thread.set_buff_map(self.buff_view.buff_key_map)
         self.hunter_thread.start()
 
     def stop_auto_hunter(self):

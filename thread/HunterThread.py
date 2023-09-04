@@ -7,10 +7,9 @@ import random
 from constant.key_board_mapping import QtKeyBoardStringDict
 
 class HunterThread(QThread):
-    def __init__(self, parent_widget, sequence_list, window_name):
+    def __init__(self, parent_widget, window_name):
         super().__init__()
         self.parent_widget = parent_widget
-        self.sequence_list = sequence_list
         self.stop = False
         self.window_name = window_name
 
@@ -19,6 +18,12 @@ class HunterThread(QThread):
         if self.maple_window is None:
             return False
         return True
+
+    def set_key_sequence(self, sequence_list):
+        self.sequence_list = sequence_list
+
+    def set_buff_map(self, buff_map):
+        self.buff_map = buff_map
 
     def run(self):
         sequence_len = len(self.sequence_list)
