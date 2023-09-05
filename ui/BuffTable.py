@@ -1,6 +1,6 @@
+from typing import Any, Union
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QLineEdit
 
 class BuffTableModel(QtCore.QAbstractTableModel):
     def __init__(self, data, header_name):
@@ -17,9 +17,16 @@ class BuffTableModel(QtCore.QAbstractTableModel):
     def data(self, index, role):
         real_data = self.table_data[index.row()][index.column()]
         if role == Qt.DisplayRole or role == Qt.EditRole:
-            if type(real_data) == QLineEdit:
-                return real_data.text()
             return real_data
+
+    def setData(self, index, value, role):
+        if role == Qt.EditRole:
+            self.table_data[index.row()][index.column()] = str(value)
+            return True
+        return super().setData(index, value, role)        
+
+    def flags(self, index):
+        return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
 
     def rowCount(self, index):
         return len(self.table_data)
@@ -28,10 +35,10 @@ class BuffTableModel(QtCore.QAbstractTableModel):
         return len(self.table_data[0])
 
     def insertRow(self, new_data=[]):
-        new_default_data = [QLineEdit("test"), QLineEdit("111")]
+        new_default_data = ["", 120]
         row_idx = len(self.table_data)
         self.beginInsertRows(QtCore.QModelIndex(), row_idx, row_idx)
-        self.table_data.append(new_default_data)
+        self.table_data.append(new_default_data) if len(new_data) == 0 else self.table_data.append(new_data)
         self.endInsertRows()
         self.layoutChanged.emit()
         return row_idx
@@ -43,3 +50,6 @@ class BuffTableModel(QtCore.QAbstractTableModel):
             ["3", 180]
         ]
         self.layoutChanged.emit()
+
+    def save_buff_config(self):
+        pass

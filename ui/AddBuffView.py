@@ -51,7 +51,7 @@ class AddBuffView(QWidget):
         self.buff_table_model.insertRow()
 
     def save_record(self):
-        pass
+        self.buff_table_model.save_buff_config()
 
     def reset_buff_table(self):
         self.buff_table_model.reset_data()
