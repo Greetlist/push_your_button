@@ -1,5 +1,6 @@
 from PySide6.QtCore import QEvent
-from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QTableWidget
+from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QTableView
+from ui.BuffTable import BuffTableModel
 
 class AddBuffView(QWidget):
     def __init__(self, parent=None):
@@ -7,60 +8,53 @@ class AddBuffView(QWidget):
         super().__init__()
         self.init_component()
 
-        self.buff_table = QTableWidget()
-        self.buff_table.setHorizontalHeaderLabels(["按键", "调用间隔"])
-        self.buff_key_map = dict()
-
     def init_component(self):
+        self.g_layout = QGridLayout()
+        self.setLayout(self.g_layout)
         button_list = [
             {
                 "name": "添加Buff按键",
                 "slot": self.add_buff_row,
-                "member_name": "record_button",
-                "grid_x": 0,
-                "grid_y": 0
+                "member_name": "record_button"
             },
             {
                 "name": "保存",
                 "slot": self.save_record,
-                "member_name": "save_button",
-                "grid_x": 0,
-                "grid_y": 1
+                "member_name": "save_button"
             },
             {
                 "name": "重置",
                 "slot": self.reset_buff_table,
-                "member_name": "start_button",
-                "grid_x": 1,
-                "grid_y": 0
+                "member_name": "reset_button",
             },
             {
-                "name": "停止",
-                "slot": self.stop_auto_hunter,
-                "member_name": "stop_button",
-                "grid_x": 1,
-                "grid_y": 1
+                "name": "查看",
+                "slot": self.show_record,
+                "member_name": "show_button"
             }
         ]
-        self.record_button = QPushButton("添加一个Buff按键设置")
-        self.record_button.setCheckable(True)
-        self.record_button.clicked.connect(self.add_buff_row)
+        for button_info in button_list:
+            cur_button = QPushButton(button_info["name"])
+            cur_button.setCheckable(True)
+            cur_button.clicked.connect(button_info["slot"])
+            setattr(self, button_info["member_name"], cur_button)
+            self.g_layout.addWidget(getattr(self, button_info["member_name"], cur_button))
 
-        self.save_button = QPushButton("保存")
-        self.save_button.setEnabled(True)
-        self.save_button.clicked.connect(self.record_user_key_sequence)
-
-        self.reset_button = QPushButton("重置")
-        self.reset_button.setEnabled(True)
-        self.reset_button.clicked.connect(self.clear_record)
-
-        self.view_record_button = QPushButton("查看序列")
-        self.view_record_button.setEnabled(True)
-        self.view_record_button.clicked.connect(self.show_record)
-
-        self.g_layout = QGridLayout()
-        self.setLayout(self.g_layout)
-        self.g_layout.addWidget(self.record_button)
+        self.buff_table = QTableView()
+        self.buff_table_model = BuffTableModel([[]], ["按键", "调用间隔"])
+        self.buff_table.setModel(self.buff_table_model)
+        #self.buff_table.setHorizontalHeaderLabels(["按键", "调用间隔"])
+        self.buff_key_map = dict()
+        self.g_layout.addWidget(self.buff_table)
 
     def add_buff_row(self):
-        self.buff_table.
+        self.buff_table_model.insertRow()
+
+    def save_record(self):
+        pass
+
+    def reset_buff_table(self):
+        self.buff_table_model.reset_data()
+
+    def show_record(self):
+        pass
