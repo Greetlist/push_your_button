@@ -43,8 +43,6 @@ class AddBuffView(QWidget):
         self.buff_table = QTableView()
         self.buff_table_model = BuffTableModel(["按键", "调用间隔"])
         self.buff_table.setModel(self.buff_table_model)
-        #self.buff_table.setHorizontalHeaderLabels(["按键", "调用间隔"])
-        self.buff_key_map = dict()
         self.g_layout.addWidget(self.buff_table)
 
     def add_buff_row(self):
@@ -55,6 +53,9 @@ class AddBuffView(QWidget):
 
     def reset_buff_table(self):
         self.buff_table_model.reset_data()
+
+    def get_buff_data(self):
+        return self.buff_table_model.table_data
 
     def show_record(self):
         pass

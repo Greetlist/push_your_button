@@ -81,7 +81,7 @@ class MainView(QWidget):
         self.stop_button.setEnabled(True)
 
         self.hunter_thread.set_key_sequence(self.add_key_sequence_view.total_key_sequence)
-        self.hunter_thread.set_buff_map(self.buff_view.buff_key_map)
+        self.hunter_thread.set_buff_key_list(self.buff_view.get_buff_data())
         self.hunter_thread.start()
 
     def stop_auto_hunter(self):
