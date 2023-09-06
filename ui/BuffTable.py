@@ -1,12 +1,15 @@
 from typing import Any, Union
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtCore import Qt
+import json
+import os
 
 class BuffTableModel(QtCore.QAbstractTableModel):
-    def __init__(self, data, header_name):
+    def __init__(self, header_name):
         super(BuffTableModel, self).__init__()
-        self.table_data = data
         self.header_name = header_name
+        self.root_path = os.path.dirname(os.path.abspath(__file__))
+        self.config_path = os.path.join(self.root_path, "buff_config.json")
         self.reset_data()
 
     def headerData(self, section, orientation, role):
@@ -44,12 +47,18 @@ class BuffTableModel(QtCore.QAbstractTableModel):
         return row_idx
 
     def reset_data(self):
-        self.table_data = [
-            ["1", 60],
-            ["2", 120],
-            ["3", 180]
-        ]
+        self.read_history_config()
         self.layoutChanged.emit()
 
+    def read_history_config(self):
+        if os.path.exists(self.config_path):
+            with open(self.config_path, "r") as f:
+                raw_data = f.read()
+                print(raw_data)
+                self.table_data = json.loads(raw_data)
+        else:
+            self.table_data = [["test", "test"]]
+
     def save_buff_config(self):
-        pass
+        with open(self.config_path, "w+") as f:
+            f.write(json.dumps(self.table_data))

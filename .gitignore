@@ -4,3 +4,4 @@ main.spec
 *.swp
 *.log
 __pycache__/
+*.json

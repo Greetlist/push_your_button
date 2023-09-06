@@ -41,7 +41,7 @@ class AddBuffView(QWidget):
             self.g_layout.addWidget(getattr(self, button_info["member_name"], cur_button))
 
         self.buff_table = QTableView()
-        self.buff_table_model = BuffTableModel([[]], ["按键", "调用间隔"])
+        self.buff_table_model = BuffTableModel(["按键", "调用间隔"])
         self.buff_table.setModel(self.buff_table_model)
         #self.buff_table.setHorizontalHeaderLabels(["按键", "调用间隔"])
         self.buff_key_map = dict()
