@@ -18,6 +18,12 @@ class HunterThread(QThread):
         self.maple_window = win32gui.FindWindow(None, self.window_name)
         if self.maple_window is None:
             return False
+        children_window_list = []
+        win32gui.EnumChildWindows(self.maple_window, lambda hwnd, param: param.append(hwnd), children_window_list)
+        for item in children_window_list:
+            class_name = win32gui.GetClassName(item)
+            if class_name == "Edit":
+                self.maple_window = item
         return True
 
     def set_key_sequence(self, sequence_list):
