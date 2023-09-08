@@ -20,12 +20,12 @@ class HunterThread(QThread):
             return False
 
         # for Editor Test
-        #children_window_list = []
-        #win32gui.EnumChildWindows(self.maple_window, lambda hwnd, param: param.append(hwnd), children_window_list)
-        #for item in children_window_list:
-        #    class_name = win32gui.GetClassName(item)
-        #    if class_name == "Edit":
-        #        self.maple_window = item
+        children_window_list = []
+        win32gui.EnumChildWindows(self.maple_window, lambda hwnd, param: param.append(hwnd), children_window_list)
+        for item in children_window_list:
+            class_name = win32gui.GetClassName(item)
+            if class_name == "Edit":
+                self.maple_window = item
 
         return True
 
@@ -66,7 +66,7 @@ class HunterThread(QThread):
                     virtual_key = key_info["VirtualKey"]
                     print(virtual_key)
                     win32gui.PostMessage(self.maple_window, win32con.WM_KEYDOWN, virtual_key, 0)
-                    win32gui.PostMessage(self.maple_window, win32con.WM_KEYUP, virtual_key, 0)
+                    #win32gui.PostMessage(self.maple_window, win32con.WM_KEYUP, virtual_key, 0)
                 else:
                     print("error key: {}, key_info is None".format(key))
                 time.sleep(0.5)
