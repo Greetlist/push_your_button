@@ -66,7 +66,7 @@ class HunterThread(QThread):
                     virtual_key = key_info["VirtualKey"]
                     print(virtual_key)
                     win32gui.PostMessage(self.maple_window, win32con.WM_KEYDOWN, virtual_key, 0)
-                    #win32gui.PostMessage(self.maple_window, win32con.WM_KEYUP, virtual_key, 0)
+                    win32gui.PostMessage(self.maple_window, win32con.WM_KEYUP, virtual_key, 0)
                 else:
                     print("error key: {}, key_info is None".format(key))
                 time.sleep(0.5)
