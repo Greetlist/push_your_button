@@ -81,3 +81,16 @@ class AddKeySequenceView(QWidget):
 
     def gen_sequence_str(self):
         return "->".join(self.key_string_sequence_cache)
+
+    def gen_sequence_str_from_config(self):
+        seq_str_list = list()
+        with open(self.config_path, 'r') as f:
+            current_config_list = json.loads(f.read())
+            for seq in current_config_list:
+                str_list = list()
+                for qt_key in seq:
+                    key_info = QtKeyBoardStringDict.get(qt_key, None)
+                    if key_info is not None:
+                        str_list.append(key_info["String"])
+                seq_str_list.append("->".join(str_list))
+        return seq_str_list
