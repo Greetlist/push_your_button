@@ -11,7 +11,7 @@ import sys
 class MainView(QWidget):
     def __init__(self, parent=None):
         super().__init__()
-        self.maple_window_name = "测试写入.txt - 记事本"
+        self.maple_window_name = "MapleStore"
 
         self.init_child_widget()
         self.init_log_fetch_thread()
