@@ -2,7 +2,6 @@ from PySide6.QtWidgets import QWidget, QPushButton, QGridLayout, QTextBrowser
 from PySide6.QtCore import QSize
 from thread.LogFetcherThread import LogFetcherThread
 from thread.HunterThread import HunterThread
-from PySide6 import QtWidgets
 from ui.AddKeySequenceView import AddKeySequenceView
 from ui.AddBuffView import AddBuffView
 
